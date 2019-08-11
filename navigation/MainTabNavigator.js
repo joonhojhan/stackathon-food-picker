@@ -79,7 +79,6 @@ MapStack.path = '';
 const tabNavigator = createBottomTabNavigator({
 	HomeStack,
 	MapStack,
-	SettingsStack,
 });
 
 tabNavigator.path = '';
