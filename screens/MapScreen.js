@@ -14,6 +14,7 @@ const deltas = {
 	latitudeDelta: 0.03,
 	longitudeDelta: 0.03,
 };
+
 const styles = {
 	filters: {
 		flexDirection: 'column',
@@ -109,10 +110,9 @@ export default class MapScreen extends Component {
 	}
 
 	handleFilterPress = async filter => {
-		const { food } = this.state;
 		await this.getFood(filter);
 		// console.log(this.state.food[0].coords);
-		await this.setState({ location: food[0] });
+		await this.setState({ location: this.state.food[0] });
 	};
 
 	renderFilterButtons() {
