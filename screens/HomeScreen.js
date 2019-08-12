@@ -1,57 +1,5 @@
-import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import {
-	Image,
-	Platform,
-	ScrollView,
-	StyleSheet,
-	Text,
-	TouchableOpacity,
-	View,
-} from 'react-native';
-
-import { MonoText } from '../components/StyledText';
-
-export default function HomeScreen() {
-	return (
-		<View style={styles.container}>
-			<View style={styles.contentContainer}>
-				<View>
-					<Text style={styles.title}>What Do You Want?</Text>
-				</View>
-				<View
-					style={{
-						...styles.welcomeContainer,
-						flexDirection: 'column',
-					}}
-				>
-					<Image
-						source={{
-							uri:
-								'https://icon-library.net/images/yelp-app-icon/yelp-app-icon-20.jpg',
-						}}
-						style={styles.welcomeImage}
-					/>
-				</View>
-				<View style={styles.getStartedContainer}>
-					<Text style={styles.textStyle}>
-						{
-							'Hey! This app uses the Yelp API and react-native-maps with Google as the provider to help you decide where to eat...'
-						}
-					</Text>
-					<Text style={styles.textStyle}>{'Randomly... :)'}</Text>
-					<Text style={styles.textStyle}>
-						Let me help you choose what to eat!
-					</Text>
-				</View>
-			</View>
-		</View>
-	);
-}
-
-HomeScreen.navigationOptions = {
-	header: null,
-};
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 const styles = StyleSheet.create({
 	container: {
@@ -90,3 +38,44 @@ const styles = StyleSheet.create({
 		marginBottom: 25,
 	},
 });
+
+export default function HomeScreen() {
+	return (
+		<View style={styles.container}>
+			<View style={styles.contentContainer}>
+				<View>
+					<Text style={styles.title}>What Do You Want?</Text>
+				</View>
+				<View
+					style={{
+						...styles.welcomeContainer,
+						flexDirection: 'column',
+					}}
+				>
+					<Image
+						source={{
+							uri:
+								'https://icon-library.net/images/yelp-app-icon/yelp-app-icon-20.jpg',
+						}}
+						style={styles.welcomeImage}
+					/>
+				</View>
+				<View style={styles.getStartedContainer}>
+					<Text style={styles.textStyle}>
+						{
+							'Hey! This app uses the Yelp API and react-native-maps with Google as the provider to help you decide where to eat...'
+						}
+					</Text>
+					<Text style={styles.textStyle}>'Randomly... :)'</Text>
+					<Text style={styles.textStyle}>
+						Let me help you choose what to eat!
+					</Text>
+				</View>
+			</View>
+		</View>
+	);
+}
+
+HomeScreen.navigationOptions = {
+	header: null,
+};

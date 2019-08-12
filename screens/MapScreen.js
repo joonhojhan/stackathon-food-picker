@@ -14,6 +14,21 @@ const deltas = {
 	latitudeDelta: 0.03,
 	longitudeDelta: 0.03,
 };
+const styles = {
+	filters: {
+		flexDirection: 'column',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+		flexWrap: 'wrap',
+	},
+	button: {
+		marginTop: 65,
+	},
+	container: {
+		width: '100%',
+		height: '80%',
+	},
+};
 
 export default class MapScreen extends Component {
 	filterButtons = [
@@ -94,9 +109,10 @@ export default class MapScreen extends Component {
 	}
 
 	handleFilterPress = async filter => {
+		const { food } = this.state;
 		await this.getFood(filter);
 		// console.log(this.state.food[0].coords);
-		await this.setState({ location: this.state.food[0] });
+		await this.setState({ location: food[0] });
 	};
 
 	renderFilterButtons() {
@@ -164,22 +180,6 @@ export default class MapScreen extends Component {
 		);
 	}
 }
-
-const styles = {
-	filters: {
-		flexDirection: 'column',
-		justifyContent: 'flex-start',
-		alignItems: 'center',
-		flexWrap: 'wrap',
-	},
-	button: {
-		marginTop: 65,
-	},
-	container: {
-		width: '100%',
-		height: '80%',
-	},
-};
 
 export { MapScreen };
 
