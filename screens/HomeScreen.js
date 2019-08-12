@@ -66,7 +66,7 @@ export default function HomeScreen() {
 							'Hey! This app uses the Yelp API and react-native-maps with Google as the provider to help you decide where to eat...'
 						}
 					</Text>
-					<Text style={styles.textStyle}>'Randomly... :)'</Text>
+					<Text style={styles.textStyle}>'Randomly... >:)'</Text>
 					<Text style={styles.textStyle}>
 						Let me help you choose what to eat!
 					</Text>
