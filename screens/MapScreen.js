@@ -86,7 +86,7 @@ const styles = {
 		flexWrap: 'wrap',
 	},
 	button: {
-		marginVertical: 4,
+		marginTop: 65,
 	},
 };
 

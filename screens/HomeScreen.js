@@ -16,6 +16,9 @@ export default function HomeScreen() {
 	return (
 		<View style={styles.container}>
 			<View style={styles.contentContainer}>
+				<View>
+					<Text style={styles.title}>What Do You Want?</Text>
+				</View>
 				<View
 					style={{
 						...styles.welcomeContainer,
@@ -69,7 +72,6 @@ const styles = StyleSheet.create({
 		height: 200,
 		resizeMode: 'contain',
 		marginTop: 3,
-		marginLeft: -10,
 	},
 	getStartedContainer: {
 		alignItems: 'center',
@@ -79,6 +81,12 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		alignSelf: 'center',
 		textAlign: 'center',
-		marginTop: 50,
+		marginTop: 25,
+	},
+	title: {
+		fontSize: 36,
+		alignSelf: 'center',
+		textAlign: 'center',
+		marginBottom: 25,
 	},
 });
