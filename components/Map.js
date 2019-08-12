@@ -38,6 +38,10 @@ export default class Map extends Component {
 		));
 	}
 
+	animate(region) {
+		this.mapView.animateToRegion(region, 500);
+	}
+
 	render() {
 		const { location, userLocation } = this.props;
 		let region;
@@ -65,8 +69,9 @@ export default class Map extends Component {
 
 		return (
 			<MapView
+				ref={ref => (this.mapView = ref)}
 				style={styles.container}
-				region={region}
+				// region={region}
 				initialRegion={{ ...initialRegion, ...deltas }}
 				showsUserLocation
 				showsMyLocationButton

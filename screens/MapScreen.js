@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
-import { View, SafeAreaView, StyleSheet, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import { Button } from 'react-native-elements';
 import get from 'lodash/get';
 import pick from 'lodash/pick';
+import MapView, { Marker } from 'react-native-maps';
 
 import YelpService from '../services/yelp';
-import Map from '../components/Map';
+// import Map from '../components/Map';
+
+const deltas = {
+	latitudeDelta: 0.03,
+	longitudeDelta: 0.03,
+};
 
 export default class MapScreen extends Component {
 	filterButtons = [
@@ -24,13 +30,50 @@ export default class MapScreen extends Component {
 		this.getLocationAsync();
 	}
 
+	renderMarker() {
+		const { userLocation, food } = this.state;
+		return food.map((place, key) => {
+			let oops = {
+				latitude: get(userLocation, 'coords.latitude', null),
+				longitude: get(userLocation, 'coords.longitude', null),
+			};
+			if (!place) {
+				return (
+					<Marker
+						key={key}
+						title="Current Location"
+						coordinate={oops}
+						description="Oops, we couldn't find anything for you to eat :/"
+					/>
+				);
+			}
+			return (
+				<Marker
+					key={key}
+					title={place.name}
+					coordinate={place.coords}
+					description={`Address: ${place.address}\nRating: ${
+						place.rating
+					} stars\nOpen: ${
+						!place.is_closed ? 'Yes' : 'No'
+					}\nCategory: ${place.categories
+						.map(category => category.title)
+						.join(', ')}`}
+				/>
+			);
+		});
+	}
+
+	animate(region) {
+		this.mapView.animateToRegion(region, 500);
+	}
+
 	getFood = async filter => {
-		const randomPick = Math.floor(Math.random() * 25);
+		const randomPick = Math.floor(Math.random() * 30);
 		const coords = get(this.state.userLocation, 'coords');
 		const userLocation = pick(coords, ['latitude', 'longitude']);
 		let food = await YelpService.getFood(userLocation, filter);
 		this.setState({ food: [food[randomPick]] });
-		// this.setState({ food });
 	};
 
 	getLocationAsync = async () => {
@@ -46,10 +89,14 @@ export default class MapScreen extends Component {
 		// this.getFood();
 	};
 
+	animate(region) {
+		this.mapView.animateToRegion(region, 750);
+	}
+
 	handleFilterPress = async filter => {
 		await this.getFood(filter);
 		// console.log(this.state.food[0].coords);
-		this.setState({ location: this.state.food[0] });
+		await this.setState({ location: this.state.food[0] });
 	};
 
 	renderFilterButtons() {
@@ -61,17 +108,57 @@ export default class MapScreen extends Component {
 					backgroundColor: button.color,
 					...styles.button,
 				}}
-				onPress={() => this.handleFilterPress(button.filter)}
+				onPress={async () => {
+					await this.handleFilterPress(button.filter);
+					const { location, userLocation } = this.state;
+					let region;
+					if (location) {
+						region = {
+							latitude: get(location, 'coords.latitude', null),
+							longitude: get(location, 'coords.longitude', null),
+							...deltas,
+						};
+					} else {
+						region = {
+							latitude: get(userLocation, 'coords.latitude', null),
+							longitude: get(userLocation, 'coords.longitude', null),
+							...deltas,
+						};
+					}
+					this.animate(region);
+				}}
 			/>
 		));
 	}
 
 	render() {
-		const { location, food, userLocation } = this.state;
+		const { userLocation } = this.state;
+		let region = {
+			latitude: get(userLocation, 'coords.latitude', null),
+			longitude: get(userLocation, 'coords.longitude', null),
+			...deltas,
+		};
+		if (!region.latitude || !region.longitude) {
+			return (
+				<View>
+					<Text>Loading map...</Text>
+				</View>
+			);
+		}
 		return (
 			<View style={{ flex: 7 }}>
-				<Map userLocation={userLocation} location={location} places={food} />
-
+				{/* <Map userLocation={userLocation} location={location} places={food} /> */}
+				<MapView
+					ref={ref => (this.mapView = ref)}
+					style={styles.container}
+					// region={region}
+					initialRegion={region}
+					showsUserLocation
+					showsMyLocationButton
+					provider="google"
+				>
+					{this.renderMarker()}
+				</MapView>
 				<View style={{ ...styles.filters }}>{this.renderFilterButtons()}</View>
 			</View>
 		);
@@ -87,6 +174,10 @@ const styles = {
 	},
 	button: {
 		marginTop: 65,
+	},
+	container: {
+		width: '100%',
+		height: '80%',
 	},
 };
 

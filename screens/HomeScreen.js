@@ -36,7 +36,7 @@ export default function HomeScreen() {
 				<View style={styles.getStartedContainer}>
 					<Text style={styles.textStyle}>
 						{
-							'Hey! This app uses Yelp api and react-native-maps with Google as the provider to help you decide where to eat...'
+							'Hey! This app uses the Yelp API and react-native-maps with Google as the provider to help you decide where to eat...'
 						}
 					</Text>
 					<Text style={styles.textStyle}>{'Randomly... :)'}</Text>
